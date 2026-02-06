@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dombyra.dto.LoginResponse;
+import org.example.dombyra.dto.OtpResponse;
 import org.example.dombyra.dto.OtpVerifyDto;
 import org.example.dombyra.dto.RegisterRequest;
 import org.example.dombyra.models.User;
@@ -45,7 +46,7 @@ public class RegisterController {
             }
     )
     @PostMapping("/verify")
-    public ResponseEntity<LoginResponse> verifyOtp(@RequestBody OtpVerifyDto otpVerifyDto) throws JsonProcessingException{
+    public ResponseEntity<OtpResponse> verifyOtp(@RequestBody OtpVerifyDto otpVerifyDto) throws JsonProcessingException{
         return otpService.verifyOtp(otpVerifyDto);
     }
 }
