@@ -23,8 +23,8 @@ public class UserService {
 //        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
 //        return new UserInfoResponse(user.getName(),user.getPhoneNumber());
 //    }
-    public UserResponse getUser(Authentication auth){
-        String phoneNumber = auth.getName();
+    public UserResponse getUser(String phoneNumber){
+//        String phoneNumber = auth.getName();
         User user = userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
         return new UserResponse(
                 user.getId(),
