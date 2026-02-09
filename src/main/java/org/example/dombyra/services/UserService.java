@@ -3,6 +3,7 @@ package org.example.dombyra.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dombyra.dto.UserInfoResponse;
+import org.example.dombyra.dto.UserResponse;
 import org.example.dombyra.dto.UserUpdateRequest;
 import org.example.dombyra.models.User;
 import org.example.dombyra.repositories.UserRepository;
@@ -22,9 +23,15 @@ public class UserService {
 //        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
 //        return new UserInfoResponse(user.getName(),user.getPhoneNumber());
 //    }
-    public User getUser(Authentication auth){
+    public UserResponse getUser(Authentication auth){
         String phoneNumber = auth.getName();
-        return userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getPhoneNumber()
+        );
+
     }
 
 

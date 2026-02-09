@@ -2,6 +2,7 @@ package org.example.dombyra.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dombyra.dto.UserInfoResponse;
+import org.example.dombyra.dto.UserResponse;
 import org.example.dombyra.dto.UserUpdateRequest;
 import org.example.dombyra.models.User;
 import org.example.dombyra.services.UserService;
@@ -21,7 +22,7 @@ public class UserController {
 //    }
 
     @GetMapping
-    public ResponseEntity<User> getUser(Authentication authentication){
+    public ResponseEntity<UserResponse> getUser(Authentication authentication){
         return ResponseEntity.ok(userService.getUser(authentication));
     }
 
