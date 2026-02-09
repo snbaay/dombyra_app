@@ -3,7 +3,10 @@ package org.example.dombyra.controllers;
 import lombok.RequiredArgsConstructor;
 import org.example.dombyra.dto.UserInfoResponse;
 import org.example.dombyra.dto.UserUpdateRequest;
+import org.example.dombyra.models.User;
 import org.example.dombyra.services.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,9 +15,14 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("{id}")
-    public UserInfoResponse getUserById(@PathVariable Long id){
-        return userService.getUserById(id);
+//    @GetMapping("{id}")
+//    public UserInfoResponse getUserById(@PathVariable Long id){
+//        return userService.getUserById(id);
+//    }
+
+    @GetMapping
+    public ResponseEntity<User> getUser(Authentication authentication){
+        return ResponseEntity.ok(userService.getUser(authentication));
     }
 
     @PutMapping("{id}")
