@@ -1,5 +1,6 @@
 package org.example.dombyra.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,12 +28,14 @@ public class User implements UserDetails {
     @Column(name = "phoneNumber")
     private String phoneNumber;
     @Column(name = "password" , length = 1000)
+    @JsonIgnore
     private String password;
     @Column(name = "active")
     private boolean active;
     @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
     @Override
