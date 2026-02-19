@@ -22,7 +22,10 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
     public boolean isTokenValid(String token,UserDetails userDetails){
+
         final String userPhoneNumber = extractUserPhoneNumber(token);
+        System.out.println("Expired: " + isTokenExpired(token));
+        System.out.println("Username match: " + userPhoneNumber.equals(userDetails.getUsername()));
         return (userPhoneNumber.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
     public boolean isRefreshTokenValid(String token,String phoneNumber){
@@ -36,6 +39,7 @@ public class JwtService {
         return generateToken(new HashMap<>(),phoneNumber,7);
     }
     private boolean isTokenExpired(String token){
+
         return extractExpiration(token).before(new Date());
     }
     private Date extractExpiration(String token){
