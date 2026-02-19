@@ -23,9 +23,6 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<UserResponse> getUser(Authentication authentication){
-//        if (authentication == null || !authentication.isAuthenticated()) {
-//            return ResponseEntity.status(401).build();
-//        }
         return ResponseEntity.ok(userService.getUser(authentication.getName()));
     }
 

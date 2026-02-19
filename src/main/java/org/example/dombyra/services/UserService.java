@@ -24,14 +24,12 @@ public class UserService {
 //        return new UserInfoResponse(user.getName(),user.getPhoneNumber());
 //    }
     public UserResponse getUser(String phoneNumber){
-//        String phoneNumber = auth.getName();
         User user = userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
         return new UserResponse(
                 user.getId(),
                 user.getName(),
                 user.getPhoneNumber()
         );
-
     }
 
 
