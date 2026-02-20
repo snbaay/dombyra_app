@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "password" , length = 1000)
     @JsonIgnore
@@ -50,7 +50,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return phoneNumber;
     }
 
     @Override
