@@ -1,10 +1,9 @@
 package org.example.dombyra.services;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dombyra.dto.LoginRequest;
-import org.example.dombyra.dto.LoginResponse;
-import org.example.dombyra.dto.RefreshRequest;
-import org.example.dombyra.dto.UserInfoResponse;
+import org.example.dombyra.dto.request.LoginRequest;
+import org.example.dombyra.dto.response.LoginResponse;
+import org.example.dombyra.dto.response.UserInfoResponse;
 import org.example.dombyra.models.User;
 import org.example.dombyra.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -14,10 +13,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

@@ -1,18 +1,17 @@
 package org.example.dombyra.services;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dombyra.dto.RefreshRequest;
+import org.example.dombyra.dto.request.RefreshRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class RefreshAccessService {
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
     public ResponseEntity<?> refreshAccessToken(RefreshRequest refreshRequest){
         String refreshToken = refreshRequest.refreshToken();

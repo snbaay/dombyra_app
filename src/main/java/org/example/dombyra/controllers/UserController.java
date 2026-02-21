@@ -1,25 +1,22 @@
 package org.example.dombyra.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dombyra.dto.UserInfoResponse;
-import org.example.dombyra.dto.UserResponse;
-import org.example.dombyra.dto.UserUpdateRequest;
-import org.example.dombyra.models.User;
+import org.example.dombyra.dto.response.UserInfoResponse;
+import org.example.dombyra.dto.response.UserResponse;
+import org.example.dombyra.dto.request.UserUpdateRequest;
 import org.example.dombyra.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
-//    @GetMapping("{id}")
-//    public UserInfoResponse getUserById(@PathVariable Long id){
-//        return userService.getUserById(id);
-//    }
 
     @GetMapping
     public ResponseEntity<UserResponse> getUser(Authentication authentication){
@@ -29,5 +26,11 @@ public class UserController {
     @PutMapping("{id}")
     public UserInfoResponse updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest userUpdateRequest){
         return userService.updateUser(id,userUpdateRequest);
+    }
+
+    @PostMapping("/avatar")
+    public ResponseEntity<?> uploadPhoto(@RequestParam MultipartFile file, Authentication authentication) {
+        userService.uploadPhoto(file, authentication);
+        return ResponseEntity.ok(Map.of("message", "Photo uploaded"));
     }
 }

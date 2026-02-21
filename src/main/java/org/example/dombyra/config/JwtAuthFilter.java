@@ -37,15 +37,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
-        try {
-            token = authHeader.substring(7);
-            userPhoneNumber = jwtService.extractUserPhoneNumber(token);
-            System.out.println("Phone: " + userPhoneNumber);
-        } catch (Exception e) {
-            System.out.println("Token parse error: " + e.getMessage());
-            filterChain.doFilter(request, response);
-            return;
-        }
+        token = authHeader.substring(7);
+        userPhoneNumber = jwtService.extractUserPhoneNumber(token);
         if (userPhoneNumber != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userPhoneNumber);
             if (jwtService.isTokenValid(token,userDetails)){

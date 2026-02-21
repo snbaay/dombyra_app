@@ -1,4 +1,4 @@
-package org.example.dombyra.dto;
+package org.example.dombyra.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

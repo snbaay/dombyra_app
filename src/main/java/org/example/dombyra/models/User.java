@@ -32,6 +32,10 @@ public class User implements UserDetails {
     private String password;
     @Column(name = "active")
     private boolean active;
+    @Column(name = "avatar_url")
+    private String photoUrl;
+    @Column(name = "avatar_public_id")
+    private String photoPublicId; // для удаления из Cloudinary
     @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)

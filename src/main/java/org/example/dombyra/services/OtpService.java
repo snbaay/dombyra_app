@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dombyra.dto.*;
+import org.example.dombyra.dto.request.RegisterRequest;
+import org.example.dombyra.dto.response.OtpResponse;
 import org.example.dombyra.models.User;
 import org.example.dombyra.models.enums.Role;
 import org.example.dombyra.repositories.UserRepository;

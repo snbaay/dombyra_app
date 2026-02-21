@@ -3,12 +3,11 @@ package org.example.dombyra.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.dombyra.dto.LoginRequest;
-import org.example.dombyra.dto.LoginResponse;
-import org.example.dombyra.dto.RefreshRequest;
+import org.example.dombyra.dto.request.LoginRequest;
+import org.example.dombyra.dto.response.LoginResponse;
+import org.example.dombyra.dto.request.RefreshRequest;
 import org.example.dombyra.services.AuthService;
 import org.example.dombyra.services.RefreshAccessService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

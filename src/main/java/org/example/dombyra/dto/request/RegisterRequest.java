@@ -1,4 +1,4 @@
-package org.example.dombyra.dto;
+package org.example.dombyra.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 

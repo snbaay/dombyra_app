@@ -2,15 +2,11 @@ package org.example.dombyra.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.example.dombyra.dto.LoginResponse;
-import org.example.dombyra.dto.OtpVerifyDto;
-import org.example.dombyra.dto.RegisterRequest;
+import org.example.dombyra.dto.request.RegisterRequest;
 import org.example.dombyra.models.User;
 import org.example.dombyra.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
