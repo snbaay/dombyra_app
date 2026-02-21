@@ -5,6 +5,7 @@ import org.example.dombyra.dto.response.UserInfoResponse;
 import org.example.dombyra.dto.response.UserResponse;
 import org.example.dombyra.dto.request.UserUpdateRequest;
 import org.example.dombyra.services.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class UserController {
         return userService.updateUser(id,userUpdateRequest);
     }
 
-    @PostMapping("/avatar")
-    public ResponseEntity<?> uploadPhoto(@RequestParam MultipartFile file, Authentication authentication) {
+    @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadPhoto(@RequestParam("file") MultipartFile file, Authentication authentication) {
         userService.uploadPhoto(file, authentication);
         return ResponseEntity.ok(Map.of("message", "Photo uploaded"));
     }
