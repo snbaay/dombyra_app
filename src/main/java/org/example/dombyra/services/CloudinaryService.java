@@ -14,7 +14,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class CloudinaryService {
-    private Cloudinary cloudinary;
+    private final Cloudinary cloudinary;
     @Transactional
     public CloudinaryResponse uploadFile(MultipartFile file,String filename){
         try {
