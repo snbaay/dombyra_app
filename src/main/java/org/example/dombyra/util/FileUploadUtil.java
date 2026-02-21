@@ -18,8 +18,8 @@ public class FileUploadUtil {
     public static final String FILE_NAME_FORMAT = "%s_%s";
 
     public static boolean isAllowedExtension(final String fileName, final String pattern){
-        final Matcher matcher = Pattern.compile(pattern,Pattern.CASE_INSENSITIVE).matcher(fileName);
-        return matcher.matches();
+        final String extension = FilenameUtils.getExtension(fileName).toLowerCase();
+        return extension.matches("jpe?g|png|gif|bmp");
     }
 
     public static void assertAllowed(MultipartFile file, String pattern){
