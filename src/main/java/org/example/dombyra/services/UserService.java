@@ -28,7 +28,8 @@ public class UserService {
         return new UserResponse(
                 user.getId(),
                 user.getName(),
-                user.getPhoneNumber()
+                user.getPhoneNumber(),
+                user.getPhotoUrl()
         );
     }
 

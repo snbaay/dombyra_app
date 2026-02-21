@@ -1,4 +1,4 @@
 package org.example.dombyra.dto.response;
 
-public record UserResponse(Long id ,String name, String phoneNumber) {
+public record UserResponse(Long id ,String name, String phoneNumber, String photoUrl) {
 }
