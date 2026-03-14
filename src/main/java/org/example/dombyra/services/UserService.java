@@ -64,5 +64,4 @@ public class UserService {
         user.setPhotoPublicId(response.publicId());
         userRepository.save(user);
     }
-
 }
