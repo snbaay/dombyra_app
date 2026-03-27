@@ -21,7 +21,7 @@ public class Kuyshy {
     String firstName;
     @Column(name = "last_name")
     String lastName;
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     String description;
     @Column(name = "kuyshy_photo_url")
     private String photoUrl;
