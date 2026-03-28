@@ -21,7 +21,7 @@ public class Kuy {
     @Column(name = "kuy_id")
     private Long id;
     @Column(name = "kuy_name")
-    private String kuy_name;
+    private String name;
     @Column(name = "history", columnDefinition = "TEXT")
     private String history;
     @Column(name = "audio_url")
