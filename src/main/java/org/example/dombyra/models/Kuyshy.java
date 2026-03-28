@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "kuyshyler")
 @Getter
@@ -13,6 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Kuyshy {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "kuyshy_id")
@@ -27,5 +30,7 @@ public class Kuyshy {
     private String photoUrl;
     @Column(name = "kuyshy_photo_public_id")
     private String photoPublicId; // для удаления из Cloudinary
+    @OneToMany(mappedBy = "kuyshy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Kuy> kuyler;
 
 }
