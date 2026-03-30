@@ -25,8 +25,8 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public UserInfoResponse updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest userUpdateRequest){
-        return userService.updateUser(id,userUpdateRequest);
+    public ResponseEntity<UserInfoResponse> updateUser(Authentication authentication, @RequestBody UserUpdateRequest userUpdateRequest){
+        return ResponseEntity.ok(userService.updateUser(authentication.getName(), userUpdateRequest));
     }
 
     @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

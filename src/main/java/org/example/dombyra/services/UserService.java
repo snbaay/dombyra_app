@@ -38,8 +38,8 @@ public class UserService {
         );
     }
 
-    public UserInfoResponse updateUser(Long id, UserUpdateRequest userUpdateRequest){
-        User user = userRepository.findById(id).orElseThrow(() ->  new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+    public UserInfoResponse updateUser(String phoneNumber, UserUpdateRequest userUpdateRequest){
+        User user = userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
         user.setName(userUpdateRequest.name());
         user.setPhoneNumber(userUpdateRequest.phoneNumber());
         userRepository.save(user);
