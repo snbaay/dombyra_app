@@ -9,6 +9,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface KuyRepository extends JpaRepository<Kuy,Long> {
-    List<KuyResponse> findAllBy();
-    Optional<KuyResponse> findProjectedById(Long id);
+
 }
