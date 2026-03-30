@@ -24,7 +24,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(authentication.getName()));
     }
 
-    @PutMapping("{id}")
+    @PatchMapping()
     public ResponseEntity<UserInfoResponse> updateUser(Authentication authentication, @RequestBody UserUpdateRequest userUpdateRequest){
         return ResponseEntity.ok(userService.updateUser(authentication.getName(), userUpdateRequest));
     }

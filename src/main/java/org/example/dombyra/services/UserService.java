@@ -42,6 +42,13 @@ public class UserService {
         User user = userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
         user.setName(userUpdateRequest.name());
         user.setPhoneNumber(userUpdateRequest.phoneNumber());
+        if (userUpdateRequest.name() != null && !userUpdateRequest.name().trim().isEmpty()) {
+            user.setName(userUpdateRequest.name());
+        }
+
+        if (userUpdateRequest.phoneNumber() != null && !userUpdateRequest.phoneNumber().trim().isEmpty()) {
+            user.setPhoneNumber(userUpdateRequest.phoneNumber());
+        }
         userRepository.save(user);
         return new UserInfoResponse(user.getName(),user.getPhoneNumber());
     }
