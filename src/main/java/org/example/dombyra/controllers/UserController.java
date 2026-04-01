@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.dombyra.dto.response.UserInfoResponse;
 import org.example.dombyra.dto.response.UserResponse;
 import org.example.dombyra.dto.request.UserUpdateRequest;
+import org.example.dombyra.dto.response.UserUpdateResponse;
 import org.example.dombyra.services.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +26,10 @@ public class UserController {
     }
 
     @PatchMapping()
-    public ResponseEntity<UserInfoResponse> updateUser(Authentication authentication, @RequestBody UserUpdateRequest userUpdateRequest){
+    public ResponseEntity<UserUpdateResponse> updateUser(Authentication authentication, @RequestBody UserUpdateRequest userUpdateRequest){
         return ResponseEntity.ok(userService.updateUser(authentication.getName(), userUpdateRequest));
     }
+
 
     @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadPhoto(@RequestParam("file") MultipartFile file, Authentication authentication) {

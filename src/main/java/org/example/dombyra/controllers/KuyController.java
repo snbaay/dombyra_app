@@ -13,7 +13,7 @@ import java.util.List;
 public class KuyController {
     private final KuyService kuyService;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public KuyResponse getKuy(@PathVariable Long id){
         return kuyService.getKuy(id);
     }

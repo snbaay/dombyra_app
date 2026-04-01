@@ -7,6 +7,7 @@ import org.example.dombyra.dto.response.CloudinaryResponse;
 import org.example.dombyra.dto.response.UserInfoResponse;
 import org.example.dombyra.dto.response.UserResponse;
 import org.example.dombyra.dto.request.UserUpdateRequest;
+import org.example.dombyra.dto.response.UserUpdateResponse;
 import org.example.dombyra.models.User;
 import org.example.dombyra.repositories.UserRepository;
 import org.example.dombyra.util.FileUploadUtil;
@@ -38,19 +39,27 @@ public class UserService {
         );
     }
 
-    public UserInfoResponse updateUser(String phoneNumber, UserUpdateRequest userUpdateRequest){
-        User user = userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
+    public UserUpdateResponse updateUser(String currentPhoneNumber, UserUpdateRequest userUpdateRequest){
+        User user = userRepository.findByPhoneNumber(currentPhoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
         user.setName(userUpdateRequest.name());
         user.setPhoneNumber(userUpdateRequest.phoneNumber());
+        boolean isPhoneChanged = false;
         if (userUpdateRequest.name() != null && !userUpdateRequest.name().trim().isEmpty()) {
             user.setName(userUpdateRequest.name());
         }
 
-        if (userUpdateRequest.phoneNumber() != null && !userUpdateRequest.phoneNumber().trim().isEmpty()) {
+        if (userUpdateRequest.phoneNumber() != null && !userUpdateRequest.phoneNumber().trim().isEmpty() && !userUpdateRequest.phoneNumber().equals(currentPhoneNumber)) {
             user.setPhoneNumber(userUpdateRequest.phoneNumber());
+            isPhoneChanged = true;
         }
         userRepository.save(user);
-        return new UserInfoResponse(user.getName(),user.getPhoneNumber());
+        String newAccessToken = null;
+        String newRefreshToken = null;
+        if(isPhoneChanged){
+            newAccessToken = jwtService.generateAccessToken(user.getPhoneNumber());
+            newRefreshToken = jwtService.generateRefreshToken(user.getPhoneNumber());
+        }
+        return new UserUpdateResponse(user.getName(),user.getPhoneNumber(),newAccessToken,newRefreshToken);
     }
 
     public void uploadPhoto(MultipartFile file, Authentication authentication) {
