@@ -1,7 +1,7 @@
 package org.example.dombyra.services;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dombyra.dto.OtpVerifyDto;
+import org.example.dombyra.dto.request.OtpVerifyDto;
 import org.example.dombyra.dto.TempOtpData;
 import org.example.dombyra.dto.request.RegisterRequest;
 import org.example.dombyra.dto.response.OtpResponse;

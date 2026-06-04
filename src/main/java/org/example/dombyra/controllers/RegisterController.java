@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dombyra.dto.response.OtpResponse;
-import org.example.dombyra.dto.OtpVerifyDto;
+import org.example.dombyra.dto.request.OtpVerifyDto;
 import org.example.dombyra.dto.request.RegisterRequest;
 import org.example.dombyra.services.UserRegisterService;
 import org.springframework.http.ResponseEntity;
