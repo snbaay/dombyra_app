@@ -1,17 +1,9 @@
 package org.example.dombyra.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dombyra.dto.*;
+import org.example.dombyra.dto.TempOtpData;
 import org.example.dombyra.dto.request.RegisterRequest;
-import org.example.dombyra.dto.response.OtpResponse;
-import org.example.dombyra.models.User;
-import org.example.dombyra.models.enums.Role;
-import org.example.dombyra.repositories.UserRepository;
-import org.springdoc.core.service.GenericResponseService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -22,60 +14,29 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 @Slf4j
 public class OtpService {
-    private final UserRepository userRepository;
-    private final GenericResponseService responseBuilder;
-    private final JwtService jwtService;
     private Map<String, TempOtpData> otpStore = new ConcurrentHashMap<>();
-    private ObjectMapper objectMapper = new ObjectMapper();
 
+    // Генерация для регистрации (сохраняем данные юзера)
     public String generateOtp(String phoneNumber, RegisterRequest registerRequest) {
-        int otpValue = new Random().nextInt(10000);
-        log.debug("Generated OTP value: {}", otpValue);
-        String otp = String.format("%04d", otpValue);  // Используем %04d для целых чисел
+        String otp = String.format("%04d", new Random().nextInt(10000));
         otpStore.put(phoneNumber, new TempOtpData(registerRequest, otp, System.currentTimeMillis() + 5 * 60 * 1000));
         return otp;
     }
 
-
-
-    public ResponseEntity<OtpResponse> verifyOtp(OtpVerifyDto otpVerifyDto){
-        TempOtpData otpData = otpStore.get(otpVerifyDto.phoneNumber());
-        if (otpData == null){
-            return ResponseEntity.badRequest().body(new OtpResponse("OTP not found"));
-        }
-        if (System.currentTimeMillis() > otpData.expiry()){
-            otpStore.remove(otpVerifyDto.phoneNumber());
-            return ResponseEntity.badRequest().body(new OtpResponse("OTP expired"));
-        }
-        if (otpData.otp().equals(otpVerifyDto.otp())){
-            RegisterRequest restoredRequest = otpData.user();
-
-            User newUser = new User();
-            newUser.setName(restoredRequest.userName());
-            newUser.setPhoneNumber(restoredRequest.phoneNumber());
-            newUser.setActive(true);
-            newUser.getRoles().add(Role.ROLE_USER);
-            userRepository.save(newUser);
-
-            otpStore.remove(otpVerifyDto.phoneNumber());
-            String accessToken = jwtService.generateAccessToken(newUser.getPhoneNumber());
-            String refreshToken = jwtService.generateRefreshToken((newUser.getPhoneNumber()));
-
-            return ResponseEntity.ok(new OtpResponse("OTP verified!",accessToken,refreshToken));
-        }
-        else {
-            return ResponseEntity.badRequest().body(new OtpResponse("Invalid OTP"));
-        }
+    // Генерация для входа (данные юзера не нужны, передаем null)
+    public String generateOtpForLogin(String phoneNumber) {
+        String otp = String.format("%04d", new Random().nextInt(10000));
+        otpStore.put(phoneNumber, new TempOtpData(null, otp, System.currentTimeMillis() + 5 * 60 * 1000));
+        return otp;
     }
 
-    public boolean validateOtp(String phoneNumber, String inputOtp) {
+    // Универсальная проверка кода. Если код верный, возвращаем данные (или null, если это был логин)
+    public TempOtpData validateAndGetOtpData(String phoneNumber, String inputOtp) {
         TempOtpData otpData = otpStore.get(phoneNumber);
         if (otpData != null && System.currentTimeMillis() <= otpData.expiry() && otpData.otp().equals(inputOtp)) {
-            otpStore.remove(phoneNumber); // Удаляем код после успешного использования
-            return true;
+            otpStore.remove(phoneNumber); // Сразу удаляем использованный код
+            return otpData;
         }
-        return false;
+        return null; // Код неверный или просрочен
     }
-
-
 }
