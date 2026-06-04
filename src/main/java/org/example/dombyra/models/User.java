@@ -27,9 +27,7 @@ public class User implements UserDetails {
     private String name;
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Column(name = "password" , length = 1000)
-    @JsonIgnore
-    private String password;
+
     @Column(name = "active")
     private boolean active;
     @Column(name = "avatar_url")
@@ -49,7 +47,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return null;
     }
 
     @Override

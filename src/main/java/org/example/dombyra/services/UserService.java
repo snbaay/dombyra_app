@@ -41,8 +41,7 @@ public class UserService {
 
     public UserUpdateResponse updateUser(String currentPhoneNumber, UserUpdateRequest userUpdateRequest){
         User user = userRepository.findByPhoneNumber(currentPhoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setName(userUpdateRequest.name());
-        user.setPhoneNumber(userUpdateRequest.phoneNumber());
+
         boolean isPhoneChanged = false;
         if (userUpdateRequest.name() != null && !userUpdateRequest.name().trim().isEmpty()) {
             user.setName(userUpdateRequest.name());
@@ -78,6 +77,13 @@ public class UserService {
         CloudinaryResponse response = cloudinaryService.uploadFile(file, filename);
         user.setPhotoUrl(response.url());
         user.setPhotoPublicId(response.publicId());
+        userRepository.save(user);
+    }
+
+    public void deletePhoto(String phoneNumber){
+        User user = userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+        user.setPhotoUrl(null);
         userRepository.save(user);
     }
 }

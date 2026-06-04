@@ -23,7 +23,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class OtpService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final GenericResponseService responseBuilder;
     private final JwtService jwtService;
     private Map<String, TempOtpData> otpStore = new ConcurrentHashMap<>();
@@ -54,8 +53,6 @@ public class OtpService {
             User newUser = new User();
             newUser.setName(restoredRequest.userName());
             newUser.setPhoneNumber(restoredRequest.phoneNumber());
-            // Пароль должен быть ЗАШИФРОВАН перед сохранением
-            newUser.setPassword(passwordEncoder.encode(restoredRequest.password()));
             newUser.setActive(true);
             newUser.getRoles().add(Role.ROLE_USER);
             userRepository.save(newUser);
@@ -69,6 +66,15 @@ public class OtpService {
         else {
             return ResponseEntity.badRequest().body(new OtpResponse("Invalid OTP"));
         }
+    }
+
+    public boolean validateOtp(String phoneNumber, String inputOtp) {
+        TempOtpData otpData = otpStore.get(phoneNumber);
+        if (otpData != null && System.currentTimeMillis() <= otpData.expiry() && otpData.otp().equals(inputOtp)) {
+            otpStore.remove(phoneNumber); // Удаляем код после успешного использования
+            return true;
+        }
+        return false;
     }
 
 

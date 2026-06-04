@@ -19,12 +19,15 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private final OtpService otpService;
 
     public ResponseEntity<LoginResponse> login(LoginRequest loginRequest){
         try{
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.phoneNumber(),loginRequest.password()));
             User user = userRepository.findByPhoneNumber(loginRequest.phoneNumber()).orElseThrow(() -> new RuntimeException("User not found"));
+            boolean isOtpValid = otpService.validateOtp(loginRequest.phoneNumber(),loginRequest.otp());
+            if (!isOtpValid){
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(("Invalid or expired OTP")));
+            }
             UserInfoResponse userInfoResponse = new UserInfoResponse(user.getName(),user.getPhoneNumber());
             String accessToken = jwtService.generateAccessToken(user.getPhoneNumber());
             String refreshToken = jwtService.generateRefreshToken(user.getPhoneNumber());
@@ -33,13 +36,10 @@ public class AuthService {
         }
         catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new LoginResponse("Invalid phone number or password"));
+                    .body(new LoginResponse("Invalid phone number or otp"));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new LoginResponse(e.getMessage()));
         }
     }
-
-
-
 }

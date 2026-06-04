@@ -36,4 +36,10 @@ public class UserController {
         userService.uploadPhoto(file, authentication);
         return ResponseEntity.ok(Map.of("message", "Photo uploaded"));
     }
+
+    @DeleteMapping("/{avatar}")
+    public ResponseEntity<?> deletePhoto(Authentication authentication){
+        userService.deletePhoto(authentication.getName());
+        return ResponseEntity.ok(Map.of("message","Photo deleted"));
+    }
 }
