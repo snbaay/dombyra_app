@@ -3,6 +3,7 @@ package org.example.dombyra.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.dombyra.dto.request.LoginPhoneRequest;
 import org.example.dombyra.dto.request.LoginRequest;
 import org.example.dombyra.dto.response.LoginResponse;
 import org.example.dombyra.dto.request.RefreshRequest;
@@ -21,15 +22,11 @@ public class AuthController {
     private final AuthService authService;
     private final RefreshAccessService refreshAccessService;
 
-    // ДОБАВЛЕНО: Шаг 1 для входа (Запрос OTP)
+    // ДОБАВЛЯЕМ @Valid и меняем Map на LoginOtpRequest
     @Operation(summary = "Login Step 1: Request OTP for existing user")
     @PostMapping("/login/request")
-    public ResponseEntity<?> requestLoginOtp(@RequestBody Map<String, String> request) {
-        String phoneNumber = request.get("phoneNumber");
-        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Phone number is required"));
-        }
-        return authService.requestLoginOtp(phoneNumber);
+    public ResponseEntity<?> requestLoginOtp(@Valid @RequestBody LoginPhoneRequest request) {
+        return authService.requestLoginOtp(request.phoneNumber());
     }
 
     // ИЗМЕНЕНО ОПИСАНИЕ: Это теперь Шаг 2 для входа
